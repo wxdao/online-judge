@@ -49,6 +49,7 @@ object JudgeWorker {
                     .exec()
             logger.info("$recordId - starting container")
             dockerClient.startContainerCmd(container.id).exec()
+            logger.info("$recordId - waiting for result")
             while (!File(recordPackPath + "/meta/result").exists()) {
                 try {
                     Thread.sleep(1000)
