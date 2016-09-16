@@ -16,6 +16,10 @@ class TestContext : Context {
     val _problemModel = object : ProblemModel {
         val list = LinkedList<Problem>()
 
+        init {
+            list.add(Problem(id = "test", title = "test", description = "test", showInput = true, showCompilerError = true, showExpect = true, showOutput = true))
+        }
+
         override fun getById(id: String): Problem? {
             return list.firstOrNull { problem -> if (problem.id == id) true else false }
         }
