@@ -1,6 +1,7 @@
 package com.vecsight.oj
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
 import com.github.dockerjava.api.DockerClient
 import com.github.dockerjava.core.DefaultDockerClientConfig
 import com.github.dockerjava.core.DockerClientBuilder
@@ -115,7 +116,13 @@ class TestContext : Context {
         return DockerClientBuilder.getInstance(config).build()
     }
 
+    val _objectMapper = {
+        val o = ObjectMapper()
+        o.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false)
+        o
+    }()
+
     override fun getObjectMapper(): ObjectMapper {
-        return ObjectMapper()
+        return _objectMapper
     }
 }
