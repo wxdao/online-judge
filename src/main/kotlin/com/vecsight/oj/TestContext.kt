@@ -9,6 +9,7 @@ import com.vecsight.oj.model.ProblemModel
 import com.vecsight.oj.model.RecordModel
 import com.vecsight.oj.pojo.Problem
 import com.vecsight.oj.pojo.Record
+import org.slf4j.LoggerFactory
 import java.util.*
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -74,16 +75,25 @@ class TestContext : Context {
     }
 
     val _judgeQueueModel = object : JudgeQueueModel {
+        val logger = LoggerFactory.getLogger("Judge Queue")
+
         val queue = LinkedBlockingQueue<String>()
 
         override fun add(recordId: String) {
             queue.add(recordId)
+            logger.info("add: $recordId")
+            logger.info("size: ${queue.size}")
         }
 
         override fun remove(): String? {
             return try {
-                queue.remove()
+                val r = queue.remove()
+                logger.info("remove: $r")
+                logger.info("size: ${queue.size}")
+                r
             } catch (e: NoSuchElementException) {
+                logger.info("remove failed")
+                logger.info("size: ${queue.size}")
                 null
             }
         }

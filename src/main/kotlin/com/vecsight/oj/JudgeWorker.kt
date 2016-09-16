@@ -20,6 +20,7 @@ object JudgeWorker {
 
     val loop = Runnable {
         while (!Thread.currentThread().isInterrupted) {
+            logger.info("loop")
             val context = Application.context!!
             val recordId = context.getJudgeQueueModel().remove()
             if (recordId == null) {
