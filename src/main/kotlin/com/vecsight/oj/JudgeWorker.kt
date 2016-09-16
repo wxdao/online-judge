@@ -82,7 +82,8 @@ object JudgeWorker {
     }
 
     fun stopLoop() {
-        executor.shutdown()
+        logger.info("stopping judge worker loop")
+        executor.shutdownNow()
         executor.awaitTermination(30, TimeUnit.SECONDS)
     }
 }
