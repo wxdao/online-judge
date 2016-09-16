@@ -5,16 +5,33 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.github.dockerjava.api.DockerClient
 import com.github.dockerjava.core.DefaultDockerClientConfig
 import com.github.dockerjava.core.DockerClientBuilder
+import com.vecsight.oj.model.IpLimitModel
 import com.vecsight.oj.model.JudgeQueueModel
 import com.vecsight.oj.model.ProblemModel
 import com.vecsight.oj.model.RecordModel
 import com.vecsight.oj.pojo.Problem
 import com.vecsight.oj.pojo.Record
 import org.slf4j.LoggerFactory
+import redis.clients.jedis.Jedis
 import java.util.*
 import java.util.concurrent.LinkedBlockingQueue
 
 class TestContext : Context {
+    override fun getJedis(): Jedis {
+        throw UnsupportedOperationException("not implemented")
+    }
+
+    val _ipLimitModel = object : IpLimitModel {
+        override fun plus(ip: String): Int {
+            return 0
+        }
+
+    }
+
+    override fun getIpLimitModel(): IpLimitModel {
+        return _ipLimitModel
+    }
+
     val _problemModel = object : ProblemModel {
         val list = LinkedList<Problem>()
 

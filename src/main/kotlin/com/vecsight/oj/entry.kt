@@ -9,7 +9,7 @@ import javax.ws.rs.core.UriBuilder
 fun main(args: Array<String>) {
     val logger = LoggerFactory.getLogger("Entry")
     logger.info("Using: {}", "JDK HTTP Server")
-    Application.context = TestContext()
+    Application.context = ProductionContext()
     val mc = ConfigHelper.retrieve(MainConfig::class.java)
     logger.info("Opening server on ${mc!!.host}:${mc.port}")
     val baseUri = UriBuilder.fromUri("http://${mc.host}/").port(mc.port).build()
