@@ -13,7 +13,7 @@ object ConfigHelper {
             val stream = uri.toURL().openStream()
             res = mapper.readValue(stream, clazz)
         } catch (e: Exception) {
-            logger.error(e.message)
+            logger.warn(e.message)
         }
         if (res == null) {
             if (returnNullWhenFailed) {

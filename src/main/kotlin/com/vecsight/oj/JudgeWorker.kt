@@ -16,10 +16,11 @@ object JudgeWorker {
 
     val executor = Executors.newFixedThreadPool(1)!!
 
+    val mainConfig = ConfigHelper.retrieve(MainConfig::class.java)!!
+
     val loop = Runnable {
         while (!Thread.currentThread().isInterrupted) {
             val context = Application.context!!
-            val mainConfig = ConfigHelper.retrieve(MainConfig::class.java) ?: continue
             val recordId = context.getJudgeQueueModel().remove()
             if (recordId == null) {
                 try {
