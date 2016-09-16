@@ -32,6 +32,7 @@ dependencies {
     compile "org.glassfish.jersey.containers:jersey-container-jdk-http:2.23.1"
     compile "org.glassfish.jersey.media:jersey-media-json-jackson:2.23.1"
     compile group: 'commons-io', name: 'commons-io', version: '2.5'
+    compile group: 'com.github.docker-java', name: 'docker-java', version: '3.0.6'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }

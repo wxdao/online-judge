@@ -15,5 +15,9 @@ fun main(args: Array<String>) {
     val baseUri = UriBuilder.fromUri("http://${mc.host}/").port(mc.port).build()
     val app = Application()
     JdkHttpServerFactory.createHttpServer(baseUri, app)
+    JudgeWorker.startLoop()
+    Runtime.getRuntime().addShutdownHook(Thread {
+        JudgeWorker.stopLoop()
+    })
     Thread.currentThread().join()
 }
