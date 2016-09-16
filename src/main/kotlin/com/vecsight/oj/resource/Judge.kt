@@ -7,7 +7,7 @@ import javax.ws.rs.core.MediaType
 
 @Path("judge")
 class Judge {
-    data class ProblemResponse(val title: String, val description: String)
+    data class ProblemResponse(val title: String, val description: String, val template: String)
 
     @Path("problem/{id}")
     @GET
@@ -17,7 +17,7 @@ class Judge {
             throw WebException(ErrorEntity.INVALID_REQUEST, 400)
         }
         val problem = Application.context!!.getProblemModel().getById(id) ?: throw WebException(ErrorEntity.NO_SUCH_PROBLEM, 400)
-        return ProblemResponse(problem.title ?: "", problem.description ?: "")
+        return ProblemResponse(problem.title ?: "No title", problem.description ?: "No description", problem.template ?: "// Place your code here")
     }
 
     data class SubmitRequest(val problemId: String? = null, val source: String? = null)
