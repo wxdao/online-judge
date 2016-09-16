@@ -65,10 +65,9 @@ class Judge {
         }
         val problem = Application.context!!.getProblemModel().getById(record.problemId!!) ?: throw WebException(ErrorEntity.INTERNAL, 502)
         if (record.result == null) {
-            var index = Application.context!!.getJudgeQueueModel().indexOf(record.id!!)
+            val index = Application.context!!.getJudgeQueueModel().indexOf(record.id!!)
             if (index == -1) {
-                Application.context!!.getJudgeQueueModel().add(record.id)
-                index = Application.context!!.getJudgeQueueModel().indexOf(record.id)
+                return RecordResponse("canceled", record.timestamp!!)
             }
             return RecordResponse("pending", record.timestamp!!, queue = index)
         }

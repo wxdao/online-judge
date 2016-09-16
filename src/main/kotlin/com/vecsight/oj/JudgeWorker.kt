@@ -34,7 +34,7 @@ object JudgeWorker {
             logger.info("judging $recordId")
             val record = context.getRecordModel().getById(recordId) ?: continue
             val problemPackPath = mainConfig.packRoot + record.problemId
-            val recordPackPath = mainConfig.packRoot + "records/" + record.problemId
+            val recordPackPath = mainConfig.packRoot + "records/" + record.id
             FileUtils.copyDirectory(File(problemPackPath), File(recordPackPath))
             File(recordPackPath + "/meta").mkdir()
             FileUtils.write(File(recordPackPath + "/source.cpp"), record.source, "UTF-8")
@@ -45,6 +45,7 @@ object JudgeWorker {
                     .withBinds(Bind("/src", volume))
                     .withNetworkDisabled(true)
                     .withWorkingDir("/src")
+                    .withCmd("bash", "process.sh")
                     .exec()
             logger.info("$recordId - starting container")
             dockerClient.startContainerCmd(container.id).exec()
@@ -74,6 +75,8 @@ object JudgeWorker {
             } finally {
                 logger.info("$recordId - removing container")
                 dockerClient.removeContainerCmd(container.id).exec()
+                logger.info("$recordId - deleting files")
+                FileUtils.deleteDirectory(File(recordPackPath))
             }
         }
     }
