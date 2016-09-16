@@ -12,7 +12,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 object JudgeWorker {
-    val logger = LoggerFactory.getLogger("JudgeLogger")
+    val logger = LoggerFactory.getLogger("Judge Worker")
 
     val executor = Executors.newFixedThreadPool(1)!!
 
