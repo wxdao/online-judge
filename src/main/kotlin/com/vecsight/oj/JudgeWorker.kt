@@ -18,8 +18,10 @@ object JudgeWorker {
 
     val mainConfig = ConfigHelper.retrieve(MainConfig::class.java)!!
 
+    var stopFlag = false
+
     val loop = Runnable {
-        while (!Thread.currentThread().isInterrupted) {
+        while (!Thread.currentThread().isInterrupted && !stopFlag) {
             logger.info("loop")
             val context = Application.context!!
             val recordId = context.getJudgeQueueModel().remove()
@@ -85,6 +87,7 @@ object JudgeWorker {
     fun stopLoop() {
         logger.info("stopping judge worker loop")
         executor.shutdownNow()
+        stopFlag = true
         executor.awaitTermination(30, TimeUnit.SECONDS)
     }
 }

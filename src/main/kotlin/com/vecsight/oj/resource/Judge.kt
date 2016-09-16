@@ -36,7 +36,8 @@ class Judge {
         if (updatedRecord == null) {
             throw WebException(ErrorEntity.CANNOT_CREATE_RECORD, 502)
         }
-        return SubmitResponse(updatedRecord.id!!)
+        Application.context!!.getJudgeQueueModel().add(updatedRecord.id!!)
+        return SubmitResponse(updatedRecord.id)
     }
 
     data class RecordResponse(
@@ -65,7 +66,7 @@ class Judge {
         val problem = Application.context!!.getProblemModel().getById(record.problemId!!) ?: throw WebException(ErrorEntity.INTERNAL, 502)
         if (record.result == null) {
             var index = Application.context!!.getJudgeQueueModel().indexOf(record.id!!)
-            if (index == null) {
+            if (index == -1) {
                 Application.context!!.getJudgeQueueModel().add(record.id)
                 index = Application.context!!.getJudgeQueueModel().indexOf(record.id)
             }

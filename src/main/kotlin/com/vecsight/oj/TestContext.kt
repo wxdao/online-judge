@@ -98,7 +98,7 @@ class TestContext : Context {
             }
         }
 
-        override fun indexOf(recordId: String): Int? {
+        override fun indexOf(recordId: String): Int {
             return queue.indexOf(recordId)
         }
 

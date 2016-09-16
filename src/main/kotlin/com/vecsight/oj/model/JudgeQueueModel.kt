@@ -5,5 +5,5 @@ interface JudgeQueueModel {
 
     fun remove(): String?
 
-    fun indexOf(recordId: String): Int?
+    fun indexOf(recordId: String): Int
 }
