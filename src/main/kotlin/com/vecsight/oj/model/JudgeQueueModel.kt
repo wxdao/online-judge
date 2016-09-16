@@ -1,7 +1,7 @@
 package com.vecsight.oj.model
 
 interface JudgeQueueModel {
-    fun add(recordId: String): String
+    fun add(recordId: String)
 
     fun remove(): String?
 

@@ -7,18 +7,87 @@ import com.github.dockerjava.core.DockerClientBuilder
 import com.vecsight.oj.model.JudgeQueueModel
 import com.vecsight.oj.model.ProblemModel
 import com.vecsight.oj.model.RecordModel
+import com.vecsight.oj.pojo.Problem
+import com.vecsight.oj.pojo.Record
+import java.util.*
+import java.util.concurrent.LinkedBlockingQueue
 
 class TestContext : Context {
+    val _problemModel = object : ProblemModel {
+        val list = LinkedList<Problem>()
+
+        override fun getById(id: String): Problem? {
+            return list.firstOrNull { problem -> if (problem.id == id) true else false }
+        }
+
+        override fun update(template: Problem): Problem? {
+            if (template.id == null) {
+                val problem = template.copy(id = UUID.randomUUID().toString())
+                list.add(problem)
+                return problem
+            }
+            val problem = list.firstOrNull { problem -> if (problem.id == template.id) true else false }
+            if (problem == null) {
+                return null
+            }
+            list.removeAll { problem -> if (problem.id == template.id) true else false }
+            list.add(template)
+            return template
+        }
+
+    }
+
     override fun getProblemModel(): ProblemModel {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return _problemModel
+    }
+
+    val _recordModel = object : RecordModel {
+        val list = LinkedList<Record>()
+
+        override fun getById(id: String): Record? {
+            return list.firstOrNull { record -> if (record.id == id) true else false }
+        }
+
+        override fun update(template: Record): Record? {
+            if (template.id == null) {
+                val record = template.copy(id = UUID.randomUUID().toString())
+                list.add(record)
+                return record
+            }
+            val record = list.firstOrNull { record -> if (record.id == template.id) true else false }
+            if (record == null) {
+                return null
+            }
+            list.removeAll { record -> if (record.id == record.id) true else false }
+            list.add(template)
+            return template
+        }
+
     }
 
     override fun getRecordModel(): RecordModel {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return _recordModel
+    }
+
+    val _judgeQueueModel = object : JudgeQueueModel {
+        val queue = LinkedBlockingQueue<String>()
+
+        override fun add(recordId: String) {
+            queue.add(recordId)
+        }
+
+        override fun remove(): String? {
+            return queue.remove()
+        }
+
+        override fun indexOf(recordId: String): Int? {
+            return queue.indexOf(recordId)
+        }
+
     }
 
     override fun getJudgeQueueModel(): JudgeQueueModel {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return _judgeQueueModel
     }
 
     override fun getDockerClient(): DockerClient {
