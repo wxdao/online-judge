@@ -81,7 +81,11 @@ class TestContext : Context {
         }
 
         override fun remove(): String? {
-            return queue.remove()
+            return try {
+                queue.remove()
+            } catch (e: NoSuchElementException) {
+                null
+            }
         }
 
         override fun indexOf(recordId: String): Int? {
