@@ -28,6 +28,7 @@ object JudgeWorker {
                 }
                 continue
             }
+            logger.info("judging $recordId")
             val record = context.getRecordModel().getById(recordId) ?: continue
             val problemPackPath = mainConfig.packRoot + record.problemId
             val recordPackPath = mainConfig.packRoot + "records/" + record.problemId
@@ -36,11 +37,13 @@ object JudgeWorker {
             FileUtils.write(File(recordPackPath + "/source.cpp"), record.source, "UTF-8")
             val dockerClient = context.getDockerClient()
             val volume = Volume(recordPackPath)
+            logger.info("$recordId - creating container")
             val container = dockerClient.createContainerCmd("judge:1")
                     .withBinds(Bind("/src", volume))
                     .withNetworkDisabled(true)
                     .withWorkingDir("/src")
                     .exec()
+            logger.info("$recordId - starting container")
             dockerClient.startContainerCmd(container.id).exec()
             while (!File(recordPackPath + "/meta/result").exists()) {
                 try {
@@ -51,7 +54,9 @@ object JudgeWorker {
                 }
             }
             try {
+                logger.info("$recordId - recording result")
                 val result = FileUtils.readFileToString(File(recordPackPath + "/meta/result"), "UTF-8")
+                logger.info("$recordId - result: $result")
                 val message = FileUtils.readFileToString(File(recordPackPath + "/meta/message"), "UTF-8")
                 val input = FileUtils.readFileToString(File(recordPackPath + "/meta/input.txt"), "UTF-8")
                 val expect = FileUtils.readFileToString(File(recordPackPath + "/meta/expect.txt"), "UTF-8")
@@ -64,6 +69,7 @@ object JudgeWorker {
                 val newRecord = record.copy(result = "IE", message = "Internal error occurred")
                 context.getRecordModel().update(newRecord)
             } finally {
+                logger.info("$recordId - removing container")
                 dockerClient.removeContainerCmd(container.id).exec()
             }
         }
