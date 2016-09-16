@@ -10,5 +10,6 @@ class MainConfig : Config {
             8080
         }
     }()
+    val image: String = System.getenv("OJ_IMAGE") ?: "judge"
     val packRoot: String = System.getenv("OJ_PACK_ROOT") ?: "/var/packs/"
 }

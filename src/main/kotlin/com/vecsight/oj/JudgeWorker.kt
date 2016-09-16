@@ -22,7 +22,6 @@ object JudgeWorker {
 
     val loop = Runnable {
         while (!Thread.currentThread().isInterrupted && !stopFlag) {
-            logger.info("loop")
             val context = Application.context!!
             val recordId = context.getJudgeQueueModel().remove()
             if (recordId == null) {
@@ -42,7 +41,7 @@ object JudgeWorker {
             val dockerClient = context.getDockerClient()
             val volume = Volume(recordPackPath)
             logger.info("$recordId - creating container")
-            val container = dockerClient.createContainerCmd("judge:1")
+            val container = dockerClient.createContainerCmd(mainConfig.image)
                     .withBinds(Bind("/src", volume))
                     .withNetworkDisabled(true)
                     .withWorkingDir("/src")
