@@ -5,5 +5,5 @@ import com.vecsight.oj.pojo.Record
 interface RecordModel {
     fun getById(id: String): Record?
 
-    fun update(template: Record): Record?
+    fun update(meta: Record): Record?
 }

@@ -8,5 +8,6 @@ data class ErrorEntity(val err: Int, val errStr: String) : Entity {
         val CANNOT_CREATE_RECORD = ErrorEntity(20001, "cannot create record")
         val NO_SUCH_RECORD = ErrorEntity(30001, "no such record")
         val IP_LIMIT = ErrorEntity(40001, "ip limit exceeded")
+        val AUTH = ErrorEntity(50001, "auth failed")
     }
 }

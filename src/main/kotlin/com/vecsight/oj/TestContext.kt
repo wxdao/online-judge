@@ -43,19 +43,19 @@ class TestContext : Context {
             return list.firstOrNull { problem -> if (problem.id == id) true else false }
         }
 
-        override fun update(template: Problem): Problem? {
-            if (template.id == null) {
-                val problem = template.copy(id = UUID.randomUUID().toString())
+        override fun update(meta: Problem): Problem? {
+            if (meta.id == null) {
+                val problem = meta.copy(id = UUID.randomUUID().toString())
                 list.add(problem)
                 return problem
             }
-            val problem = list.firstOrNull { problem -> if (problem.id == template.id) true else false }
+            val problem = list.firstOrNull { problem -> if (problem.id == meta.id) true else false }
             if (problem == null) {
                 return null
             }
-            list.removeAll { problem -> if (problem.id == template.id) true else false }
-            list.add(template)
-            return template
+            list.removeAll { problem -> if (problem.id == meta.id) true else false }
+            list.add(meta)
+            return meta
         }
 
     }
@@ -71,19 +71,19 @@ class TestContext : Context {
             return list.firstOrNull { record -> if (record.id == id) true else false }
         }
 
-        override fun update(template: Record): Record? {
-            if (template.id == null) {
-                val record = template.copy(id = UUID.randomUUID().toString())
+        override fun update(meta: Record): Record? {
+            if (meta.id == null) {
+                val record = meta.copy(id = UUID.randomUUID().toString())
                 list.add(record)
                 return record
             }
-            val record = list.firstOrNull { record -> if (record.id == template.id) true else false }
+            val record = list.firstOrNull { record -> if (record.id == meta.id) true else false }
             if (record == null) {
                 return null
             }
             list.removeAll { record -> if (record.id == record.id) true else false }
-            list.add(template)
-            return template
+            list.add(meta)
+            return meta
         }
 
     }

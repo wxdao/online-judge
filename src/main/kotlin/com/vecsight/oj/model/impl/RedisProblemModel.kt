@@ -23,13 +23,13 @@ class RedisProblemModel : ProblemModel {
 
     }
 
-    override fun update(template: Problem): Problem? {
-        if (template.id != null) {
-            redis.hget(key, template.id) ?: return null
-            redis.hset(key, template.id, mapper.writeValueAsString(template))
-            return template
+    override fun update(meta: Problem): Problem? {
+        if (meta.id != null) {
+            redis.hget(key, meta.id) ?: return null
+            redis.hset(key, meta.id, mapper.writeValueAsString(meta))
+            return meta
         }
-        val problem = template.copy(id = UUID.randomUUID().toString().replace("-", ""))
+        val problem = meta.copy(id = UUID.randomUUID().toString().replace("-", ""))
         redis.hset(key, problem.id, mapper.writeValueAsString(problem))
         return problem
     }

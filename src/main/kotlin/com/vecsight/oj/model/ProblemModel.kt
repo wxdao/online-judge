@@ -5,5 +5,5 @@ import com.vecsight.oj.pojo.Problem
 interface ProblemModel {
     fun getById(id: String): Problem?
 
-    fun update(template: Problem): Problem?
+    fun update(meta: Problem): Problem?
 }

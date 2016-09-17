@@ -23,13 +23,13 @@ class RedisRecordModel : RecordModel {
 
     }
 
-    override fun update(template: Record): Record? {
-        if (template.id != null) {
-            redis.hget(key, template.id) ?: return null
-            redis.hset(key, template.id, mapper.writeValueAsString(template))
-            return template
+    override fun update(meta: Record): Record? {
+        if (meta.id != null) {
+            redis.hget(key, meta.id) ?: return null
+            redis.hset(key, meta.id, mapper.writeValueAsString(meta))
+            return meta
         }
-        val record = template.copy(id = UUID.randomUUID().toString().replace("-", ""))
+        val record = meta.copy(id = UUID.randomUUID().toString().replace("-", ""))
         redis.hset(key, record.id, mapper.writeValueAsString(record))
         return record
     }

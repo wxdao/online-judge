@@ -21,7 +21,7 @@ object JudgeWorker {
     var stopFlag = false
 
     val loop = Runnable {
-        while (!Thread.currentThread().isInterrupted && !stopFlag) {
+        mainLoop@ while (!Thread.currentThread().isInterrupted && !stopFlag) {
             val context = Application.context!!
             val recordId = context.getJudgeQueueModel().remove()
             if (recordId == null) {
@@ -35,9 +35,14 @@ object JudgeWorker {
             val record = context.getRecordModel().getById(recordId) ?: continue
             val problemPackPath = mainConfig.packRoot + record.problemId
             val recordPackPath = mainConfig.packRoot + "records/" + record.id
-            FileUtils.copyDirectory(File(problemPackPath), File(recordPackPath))
-            File(recordPackPath + "/meta").mkdir()
-            FileUtils.write(File(recordPackPath + "/source.cpp"), record.source, "UTF-8")
+            try {
+                FileUtils.copyDirectory(File(problemPackPath), File(recordPackPath))
+                File(recordPackPath + "/meta").mkdir()
+                FileUtils.write(File(recordPackPath + "/source.cpp"), record.source, "UTF-8")
+            } catch (e: Exception) {
+                logger.error(e.message)
+                continue
+            }
             val dockerClient = context.getDockerClient()
             val volume = Volume("/src")
             logger.info("$recordId - creating container")
@@ -50,12 +55,17 @@ object JudgeWorker {
             logger.info("$recordId - starting container")
             dockerClient.startContainerCmd(container.id).exec()
             logger.info("$recordId - waiting for result")
+            var timeout = 30
             while (!File(recordPackPath + "/meta/result").exists()) {
                 try {
+                    if (timeout-- <= 0) {
+                        dockerClient.removeContainerCmd(container.id).exec()
+                        continue@mainLoop
+                    }
                     Thread.sleep(1000)
                 } catch (e: InterruptedException) {
                     dockerClient.removeContainerCmd(container.id).exec()
-                    break
+                    break@mainLoop
                 }
             }
             try {
@@ -77,7 +87,11 @@ object JudgeWorker {
                 logger.info("$recordId - removing container")
                 dockerClient.removeContainerCmd(container.id).exec()
                 logger.info("$recordId - deleting files")
-                FileUtils.deleteDirectory(File(recordPackPath))
+                try {
+                    FileUtils.deleteDirectory(File(recordPackPath))
+                } catch (e: Exception) {
+                    logger.error(e.message)
+                }
             }
         }
     }
