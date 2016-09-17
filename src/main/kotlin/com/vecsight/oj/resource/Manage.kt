@@ -24,7 +24,7 @@ class Manage {
 
     val mainConfig = ConfigHelper.retrieve(MainConfig::class.java)!!
 
-    data class ProblemResponse(val id: String)
+    data class ProblemResponse(val problemId: String)
 
     @Path("problem")
     @POST
