@@ -30,6 +30,7 @@ class Manage {
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
+    @AuthRequired
     fun problem(@FormDataParam("meta") meta: Problem?, @FormDataParam("pack") pack: InputStream?): ProblemResponse {
         if (meta == null || pack == null) {
             throw WebException(ErrorEntity.INVALID_REQUEST, 400)
