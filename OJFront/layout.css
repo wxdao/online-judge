@@ -1,0 +1,111 @@
+html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #cae4db
+}
+
+.hidden {
+    display: none;
+}
+
+.main {
+    margin: 30px auto;
+    border: 1px solid rgba(34, 36, 38, .15);
+    box-shadow: 2px 2px 3px #aaaaaa;
+    background-color: white;
+    max-width: 50em;
+}
+
+.title {
+    line-height: 100%;
+    font-family: 'Titillium Web', sans-serif;
+    text-align: center;
+    font-size: 3em;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    margin: 0 0.2em;
+    border-bottom: 1px solid rgb(153, 153, 153);
+}
+
+.panel {
+    position: relative;
+    font-family: 'Pavanam', sans-serif;
+    font-size: 1.5em;
+    margin: 2em auto 2em auto;
+    width: 80%;
+    border: 1px solid rgba(34, 36, 38, .15);
+    box-shadow: 0 1px 2px 0 rgba(34, 36, 38, .15);
+    padding: 1em;
+    padding-top: 1.1em;
+}
+
+.panel-title {
+    line-height: 100%;
+    position: absolute;
+    font-size: 2em;
+    font-family: 'Josefin Sans', sans-serif;
+    top: -0.5em;
+    background-color: white;
+    left: 0.5em;
+    padding-left: 10px;
+    padding-right: 10px;
+    transition: 1s;
+}
+
+.panel:hover .panel-title {
+    padding-right: 1em;
+    background-color: rgb(198, 214, 255);
+    transition: 1s;
+}
+
+.panel-button-group {
+    text-align: right;
+}
+
+.panel-button {
+    font-family: 'Maven Pro', sans-serif;
+    font-size: 0.8em;
+    line-height: 100%;
+    display: inline-block;
+    padding: 0.2em;
+    margin: auto auto;
+    border-radius: 4px;
+    background-color: rgb(245, 207, 93);
+    transition: 0.5s;
+}
+
+.panel-button:hover {
+    background-color: rgb(212, 122, 94);
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.panel-button:active {
+    background-color: rgb(236, 45, 26);
+    cursor: pointer;
+}
+
+.white-space-pre {
+    white-space: pre-wrap;
+}
+
+pre {
+    white-space: pre-wrap;
+}
+
+code {
+    display: block;
+    padding: 0.5em;
+    border: 1px solid rgb(181, 179, 163);
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.6em;
+}
+
+.id-input {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0.2em;
+    font-size: 1em;
+}
