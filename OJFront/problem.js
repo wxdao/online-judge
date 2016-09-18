@@ -1,6 +1,7 @@
 var problemId = ""
 
 function requestProblem() {
+    $('#problem-id-panel').addClass('hidden');
     $('#feedback-panel').removeClass('hidden');
     $('#feedback-text').text('Loading');
     $('#title-panel').addClass('hidden');
@@ -13,7 +14,6 @@ function requestProblem() {
         $('#title-panel').removeClass('hidden');
         $('#description-panel').removeClass('hidden');
         $('#source-panel').removeClass('hidden');
-        $('#problem-id-panel').addClass('hidden');
         $('pre code').each(function(i, block) {
             hljs.highlightBlock(block);
         });
@@ -35,14 +35,14 @@ function detectProblem() {
 }
 
 $(document).ready(function() {
-    problemId = document.location.hash;
+    problemId = document.location.hash.slice(1);
     detectProblem();
     window.onhashchange = function() {
         problemId = document.location.hash
         detectProblem();
     };
     $('#problem-id-enter').click(function() {
-        document.location.hash = $('#problem-id').val();
+        document.location.hash = $('#problem-id').val().slice(1);
     });
     $('#source-submit').click(function() {
         $.ajax('api/judge/submit', {
