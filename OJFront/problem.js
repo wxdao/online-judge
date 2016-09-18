@@ -50,7 +50,7 @@ $(document).ready(function() {
             contentType: 'application/json',
             data: JSON.stringify({
                 problemId: problemId,
-                source: $('#source').text
+                source: $('#source').text()
             }),
             success: function(data) {
                 window.location.href = 'record.html#' + data.recordId;
