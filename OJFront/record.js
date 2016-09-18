@@ -19,7 +19,7 @@ function requestRecord() {
             var infoString = '';
             infoString += 'Status: Judged\n';
             infoString += 'Result: ' + data.result + '\n';
-            if (data.message != null) {
+            if (data.message != null && data.message != '') {
                 infoString += 'Message:\n' + data.message + '\n';
             }
             if (data.compilerError != null && data.compilerError != '') {
