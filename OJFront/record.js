@@ -34,7 +34,7 @@ function requestRecord() {
             if (data.expect != null) {
                 infoString += 'Excepted Output:\n' + data.expect + '\n';
             }
-            $('#info').text(infoString + dateString);
+            $('#info').text(infoString + 'Date: ' + dateString);
             $('#source').text(data.source);
             $('#source-panel').removeClass('hidden');
             $('pre code').each(function(i, block) {
