@@ -6,7 +6,7 @@ function requestProblem() {
     $('#title-panel').addClass('hidden');
     $('#description-panel').addClass('hidden');
     $('#source-panel').addClass('hidden');
-    $.get('judge/problem/' + problemId, function(data) {
+    $.get('api/judge/problem/' + problemId, function(data) {
         $('#title').text(data.title);
         $('#description').text(data.description);
         $('#source').text(data.template);
@@ -45,7 +45,7 @@ $(document).ready(function() {
         document.location.hash = $('#problem-id').val();
     });
     $('#source-submit').click(function() {
-        $.ajax('judge/submit', {
+        $.ajax('api/judge/submit', {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
