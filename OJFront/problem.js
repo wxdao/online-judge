@@ -42,7 +42,7 @@ $(document).ready(function() {
         detectProblem();
     };
     $('#problem-id-enter').click(function() {
-        document.location.hash = $('#problem-id').val();
+        document.location.hash = $('#problem-id').text();
     });
     $('#source-submit').click(function() {
         $.ajax('api/judge/submit', {

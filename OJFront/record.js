@@ -67,6 +67,6 @@ $(document).ready(function() {
         detectRecord();
     };
     $('#record-id-enter').click(function() {
-        document.location.hash = $('#record-id').val();
+        document.location.hash = $('#record-id').text();
     });
 });
