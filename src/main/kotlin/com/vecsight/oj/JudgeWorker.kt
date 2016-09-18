@@ -72,11 +72,31 @@ object JudgeWorker {
                 logger.info("$recordId - recording result")
                 val result = FileUtils.readFileToString(File(recordPackPath + "/meta/result"), "UTF-8")
                 logger.info("$recordId - result: $result")
-                val message = FileUtils.readFileToString(File(recordPackPath + "/meta/message"), "UTF-8")
-                val input = FileUtils.readFileToString(File(recordPackPath + "/meta/input.txt"), "UTF-8")
-                val expect = FileUtils.readFileToString(File(recordPackPath + "/meta/expect.txt"), "UTF-8")
-                val output = FileUtils.readFileToString(File(recordPackPath + "/meta/output.txt"), "UTF-8")
-                val compilerError = FileUtils.readFileToString(File(recordPackPath + "/meta/compiler.err"), "UTF-8")
+                val message = try {
+                    FileUtils.readFileToString(File(recordPackPath + "/meta/message"), "UTF-8")
+                } catch (e: Exception) {
+                    null
+                }
+                val input = try {
+                    FileUtils.readFileToString(File(recordPackPath + "/meta/input.txt"), "UTF-8")
+                } catch (e: Exception) {
+                    null
+                }
+                val expect = try {
+                    FileUtils.readFileToString(File(recordPackPath + "/meta/expect.txt"), "UTF-8")
+                } catch (e: Exception) {
+                    null
+                }
+                val output = try {
+                    FileUtils.readFileToString(File(recordPackPath + "/meta/output.txt"), "UTF-8")
+                } catch (e: Exception) {
+                    null
+                }
+                val compilerError = try {
+                    FileUtils.readFileToString(File(recordPackPath + "/meta/compiler.err"), "UTF-8")
+                } catch (e: Exception) {
+                    null
+                }
                 val newRecord = record.copy(result = result, message = message, compilerError = compilerError, input = input, expect = expect, output = output)
                 context.getRecordModel().update(newRecord)
             } catch (e: IOException) {

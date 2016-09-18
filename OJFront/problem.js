@@ -14,9 +14,9 @@ function requestProblem() {
         $('#title-panel').removeClass('hidden');
         $('#description-panel').removeClass('hidden');
         $('#source-panel').removeClass('hidden');
-        $('pre code').each(function(i, block) {
+        /*$('pre code').each(function(i, block) {
             hljs.highlightBlock(block);
-        });
+         });*/
     }).fail(function() {
         alert('Failed to request');
         $('#problem-id-panel').removeClass('hidden');
@@ -60,7 +60,7 @@ $(document).ready(function() {
             }
         });
     });
-    $('pre code').on('blur', function() {
+    /*$('pre code').on('blur', function() {
         hljs.highlightBlock(this);
-    });
+     });*/
 });
