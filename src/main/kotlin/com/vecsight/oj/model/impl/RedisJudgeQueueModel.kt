@@ -13,11 +13,22 @@ class RedisJudgeQueueModel : JudgeQueueModel {
     }
 
     override fun remove(): String? {
-        return redis.lpop(key)
+        val id = redis.lpop(key) ?: return null
+        redis.setex(key + "-JUDGING:" + id, 30, "judging")
+        return id
     }
 
     override fun indexOf(recordId: String): Int {
         val v = redis.lrange(key, 0, -1)
-        return v.indexOf(recordId)
+        val idx = v.indexOf(recordId)
+        if (idx == -1) {
+            if (redis.exists(key + "-JUDGING:" + recordId)) {
+                return -2
+            } else {
+                return -1
+            }
+        } else {
+            return idx
+        }
     }
 }

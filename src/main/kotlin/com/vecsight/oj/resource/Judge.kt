@@ -43,6 +43,7 @@ class Judge {
     data class RecordResponse(
             val status: String,
             val timestamp: String,
+            val source: String? = null,
             val queue: Int? = null,
             val result: String? = null,
             val message: String? = null,
@@ -68,12 +69,15 @@ class Judge {
             val index = Application.context!!.getJudgeQueueModel().indexOf(record.id!!)
             if (index == -1) {
                 return RecordResponse("canceled", record.timestamp!!)
+            } else if (index == -2) {
+                return RecordResponse("judging", record.timestamp!!)
             }
             return RecordResponse("pending", record.timestamp!!, queue = index)
         }
         return RecordResponse(
                 "judged",
                 record.timestamp!!,
+                source = record.source,
                 result = record.result,
                 message = record.message,
                 compilerError = if (problem.showCompilerError) record.compilerError else null,
