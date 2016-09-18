@@ -38,11 +38,11 @@ $(document).ready(function() {
     problemId = document.location.hash.slice(1);
     detectProblem();
     window.onhashchange = function() {
-        problemId = document.location.hash
+        problemId = document.location.hash.slice(1);
         detectProblem();
     };
     $('#problem-id-enter').click(function() {
-        document.location.hash = $('#problem-id').val().slice(1);
+        document.location.hash = $('#problem-id').val();
     });
     $('#source-submit').click(function() {
         $.ajax('api/judge/submit', {

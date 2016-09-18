@@ -63,10 +63,10 @@ $(document).ready(function() {
     recordId = document.location.hash.slice(1);
     detectRecord();
     window.onhashchange = function() {
-        recordId = document.location.hash
+        recordId = document.location.hash.slice(1)
         detectRecord();
     };
     $('#record-id-enter').click(function() {
-        document.location.hash = $('#record-id').val().slice(1);
+        document.location.hash = $('#record-id').val();
     });
 });
