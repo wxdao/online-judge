@@ -1,6 +1,6 @@
 var problemId = ""
 
-function twealSourceInput() {
+function tweakSourceInput() {
     $('.source-input').each(function () {
         this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
     }).on('input', function () {
@@ -20,10 +20,10 @@ function requestProblem() {
         $('#title').text(data.title);
         $('#description').text(data.description);
         $('#source').val(data.template);
-        twealSourceInput();
         $('#title-panel').removeClass('hidden');
         $('#description-panel').removeClass('hidden');
         $('#source-panel').removeClass('hidden');
+        tweakSourceInput();
         /*$('pre code').each(function(i, block) {
             hljs.highlightBlock(block);
          });*/
