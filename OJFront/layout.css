@@ -68,7 +68,7 @@ html, body {
     font-size: 0.8em;
     line-height: 100%;
     display: inline-block;
-    padding: 0.2em;
+    padding: 0.5em;
     margin: auto auto;
     border-radius: 4px;
     background-color: rgb(245, 207, 93);
@@ -76,7 +76,7 @@ html, body {
 }
 
 .panel-button:hover {
-    background-color: rgb(212, 122, 94);
+    background-color: rgb(238, 109, 69);
     cursor: pointer;
     transition: 0.5s;
 }

@@ -58,7 +58,8 @@ object JudgeWorker {
             var timeout = 30
             while (!File(recordPackPath + "/meta/result").exists()) {
                 try {
-                    if (timeout-- <= 0) {
+                    val inspect = dockerClient.inspectContainerCmd(container.id).exec()
+                    if (inspect.state.running == false || timeout-- <= 0) {
                         dockerClient.removeContainerCmd(container.id).exec()
                         continue@mainLoop
                     }
