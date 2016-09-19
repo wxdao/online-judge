@@ -55,8 +55,8 @@ $(document).ready(function() {
             success: function(data) {
                 window.location.href = 'record.html#' + data.recordId;
             },
-            error: function() {
-                alert("Failed to submit");
+            error: function (xhr) {
+                alert("Failed to submit\nError: " + xhr.responseText);
             }
         });
     });
