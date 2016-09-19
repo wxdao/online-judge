@@ -1,6 +1,6 @@
 #! /bin/bash
 
-echo -n $1 > meta/result
+chmod chmod -R 777 .
 echo -n $2 > meta/message
-chmod 777 meta/*
+echo -n $1 > meta/result
 exit
