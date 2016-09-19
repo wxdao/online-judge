@@ -1,5 +1,14 @@
 var problemId = ""
 
+function twealSourceInput() {
+    $('.source-input').each(function () {
+        this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+    }).on('input', function () {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
+}
+
 function requestProblem() {
     $('#problem-id-panel').addClass('hidden');
     $('#feedback-panel').removeClass('hidden');
@@ -10,7 +19,8 @@ function requestProblem() {
     $.get('api/judge/problem/' + problemId, function(data) {
         $('#title').text(data.title);
         $('#description').text(data.description);
-        $('#source').text(data.template);
+        $('#source').val(data.template);
+        twealSourceInput();
         $('#title-panel').removeClass('hidden');
         $('#description-panel').removeClass('hidden');
         $('#source-panel').removeClass('hidden');
@@ -50,7 +60,7 @@ $(document).ready(function() {
             contentType: 'application/json',
             data: JSON.stringify({
                 problemId: problemId,
-                source: $('#source').text()
+                source: $('#source').val()
             }),
             success: function(data) {
                 window.location.href = 'record.html#' + data.recordId;

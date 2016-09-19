@@ -102,8 +102,19 @@ code {
     font-size: 0.6em;
 }
 
+.source-input {
+    margin: 1em auto;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.5em;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.6em;
+    height: auto;
+    overflow-y: hidden;
+}
+
 .id-input {
-  padding: 0.2em;
-  border: 1px solid rgb(181, 179, 163);
-  font-size: 0.8em;
+    padding: 0.2em;
+    border: 1px solid rgb(181, 179, 163);
+    font-size: 0.8em;
 }
