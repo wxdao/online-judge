@@ -49,6 +49,7 @@ object JudgeWorker {
             val container = dockerClient.createContainerCmd(mainConfig.image)
                     .withBinds(Bind(recordPackPath, volume))
                     .withNetworkDisabled(true)
+                    .withMemory(1024 * 1024 * 128) // 128M
                     .withWorkingDir("/src")
                     .withCmd("bash", "process.sh")
                     .exec()
