@@ -193,8 +193,13 @@ while ($status eq 'wait'){
 			print_uinfo($reason,$uinfo);
 			# If we killed the child process, we may need to return its error code.
 			if ($confess) {
-				if (waitpid($blackbox_pid,0) != -1){
-					exit(child_status_to_exit_code($?));
+				#if (waitpid($blackbox_pid,0) != -1){
+				#	exit(child_status_to_exit_code($?));
+				#}
+				if ($reason eq 'TIMEOUT' || $reason eq 'HANGUP') {
+					exit(233);
+				} elsif ($reason eq 'MEM' || $reason eq 'MEM_RSS') {
+					exit(234);
 				}
 			}else{
 				exit 0;

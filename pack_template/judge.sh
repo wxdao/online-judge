@@ -1,24 +1,28 @@
 #! /bin/bash
 
-echo -n "jack" > meta/input.txt
-echo -n "I'm jack" > meta/expect.txt
-cat meta/input.txt | su judge -c "perl ./memlimit -c -m 10240 timeout 5 meta/app" 1> meta/output.txt 2> meta/output.err
-ERR=$?
-if [ $ERR -ge 120 ]; then
-	cat meta/output.err | grep MEM
-	if [ $? == 0 ]; then
-		source result.sh MLE
-	else
+#memory limit in kilobytes
+MEM_LIMIT=1
+#time limit in seconds
+TIME_LIMIT=0.1
+
+for i in input*.txt; do
+	cp "$i" meta/input.txt
+	cp "expect${i#input}" meta/expect.txt
+	cat meta/input.txt | su judge -c "perl ./memlimit -c -m ${MEM_LIMIT} -t ${TIME_LIMIT} meta/app" 1> meta/output.txt 2> meta/output.err
+	ERR=$?
+	if [ $ERR == 233 ]; then
 		source result.sh TLE
-	fi
-elif [ $ERR != 0 ]; then
-	source result.sh RE
-else
-	cmp --silent meta/output.txt meta/expect.txt
-	if [ $? == 0 ]; then
-		source result.sh AC "Very good!"
+	elif [ $ERR == 234 ]; then
+		source result.sh MLE
+	elif [ $ERR != 0 ]; then
+		source result.sh RE
 	else
-		source result.sh WA	"Keep going!"
+		diff --ignore-space-change meta/output.txt meta/expect.txt
+		if [ $? != 0 ]; then
+			source result.sh WA "Keep going!"
+		fi
 	fi
-fi
+done
+
+source result.sh AC "cnss{good_you_got_an_AC}"
 
