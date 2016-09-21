@@ -27,6 +27,7 @@ class Judge {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @IpLimit
     fun submit(request: SubmitRequest?): SubmitResponse {
         if (request == null || request.problemId == null || request.source == null) {
             throw WebException(ErrorEntity.INVALID_REQUEST, 400)
