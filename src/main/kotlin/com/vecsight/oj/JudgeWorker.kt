@@ -127,5 +127,6 @@ object JudgeWorker {
         executor.shutdownNow()
         stopFlag = true
         executor.awaitTermination(30, TimeUnit.SECONDS)
+        Application.context!!.cleanUp()
     }
 }

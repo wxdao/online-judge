@@ -6,14 +6,14 @@ import com.vecsight.oj.model.IpLimitModel
 import com.vecsight.oj.model.JudgeQueueModel
 import com.vecsight.oj.model.ProblemModel
 import com.vecsight.oj.model.RecordModel
-import redis.clients.jedis.Jedis
+import redis.clients.jedis.JedisPool
 
 interface Context {
     fun getObjectMapper(): ObjectMapper
 
     fun getDockerClient(): DockerClient
 
-    fun getJedis(): Jedis
+    fun getJedisPool(): JedisPool
 
     fun getIpLimitModel(): IpLimitModel
 
@@ -22,4 +22,6 @@ interface Context {
     fun getRecordModel(): RecordModel
 
     fun getJudgeQueueModel(): JudgeQueueModel
+
+    fun cleanUp()
 }

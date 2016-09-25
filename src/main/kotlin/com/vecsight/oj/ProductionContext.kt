@@ -13,7 +13,7 @@ import com.vecsight.oj.model.impl.RedisIpLimitModel
 import com.vecsight.oj.model.impl.RedisJudgeQueueModel
 import com.vecsight.oj.model.impl.RedisProblemModel
 import com.vecsight.oj.model.impl.RedisRecordModel
-import redis.clients.jedis.Jedis
+import redis.clients.jedis.JedisPool
 
 class ProductionContext : Context {
     val _objectMapper = {
@@ -37,9 +37,9 @@ class ProductionContext : Context {
         return _dockerClient
     }
 
-    val _jedis = Jedis("localhost")
+    val _jedis = JedisPool()
 
-    override fun getJedis(): Jedis {
+    override fun getJedisPool(): JedisPool {
         return _jedis
     }
 
@@ -73,5 +73,9 @@ class ProductionContext : Context {
 
     override fun getJudgeQueueModel(): JudgeQueueModel {
         return _judgeQueueModel
+    }
+
+    override fun cleanUp() {
+        _jedis.destroy()
     }
 }

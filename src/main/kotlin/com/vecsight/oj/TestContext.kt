@@ -12,12 +12,12 @@ import com.vecsight.oj.model.RecordModel
 import com.vecsight.oj.pojo.Problem
 import com.vecsight.oj.pojo.Record
 import org.slf4j.LoggerFactory
-import redis.clients.jedis.Jedis
+import redis.clients.jedis.JedisPool
 import java.util.*
 import java.util.concurrent.LinkedBlockingQueue
 
 class TestContext : Context {
-    override fun getJedis(): Jedis {
+    override fun getJedisPool(): JedisPool {
         throw UnsupportedOperationException("not implemented")
     }
 
@@ -141,5 +141,9 @@ class TestContext : Context {
 
     override fun getObjectMapper(): ObjectMapper {
         return _objectMapper
+    }
+
+    override fun cleanUp() {
+
     }
 }
