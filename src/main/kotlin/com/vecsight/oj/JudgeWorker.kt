@@ -7,7 +7,6 @@ import com.vecsight.oj.config.MainConfig
 import org.apache.commons.io.FileUtils
 import org.slf4j.LoggerFactory
 import java.io.File
-import java.io.IOException
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
@@ -101,7 +100,7 @@ object JudgeWorker {
                 }
                 val newRecord = record.copy(result = result, message = message, compilerError = compilerError, input = input, expect = expect, output = output)
                 context.getRecordModel().update(newRecord)
-            } catch (e: IOException) {
+            } catch (e: Exception) {
                 logger.error(e.message)
                 val newRecord = record.copy(result = "IE", message = "Internal error occurred")
                 context.getRecordModel().update(newRecord)
