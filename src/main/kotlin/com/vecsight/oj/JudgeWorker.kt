@@ -89,12 +89,20 @@ object JudgeWorker {
                     null
                 }
                 val output = try {
-                    FileUtils.readFileToString(File(recordPackPath + "/meta/output.txt"), "UTF-8")
+                    if (FileUtils.sizeOf(File(recordPackPath + "/meta/output.txt")) > 10 * 1024 * 1024) {
+                        FileUtils.readFileToString(File(recordPackPath + "/meta/output.txt"), "UTF-8")
+                    } else {
+                        null
+                    }
                 } catch (e: Exception) {
                     null
                 }
                 val compilerError = try {
-                    FileUtils.readFileToString(File(recordPackPath + "/meta/compiler.err"), "UTF-8")
+                    if (FileUtils.sizeOf(File(recordPackPath + "/meta/compiler.err")) > 10 * 1024 * 1024) {
+                        FileUtils.readFileToString(File(recordPackPath + "/meta/compiler.err"), "UTF-8")
+                    } else {
+                        null
+                    }
                 } catch (e: Exception) {
                     null
                 }
