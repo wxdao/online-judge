@@ -60,12 +60,20 @@ object JudgeWorker {
                 try {
                     val inspect = dockerClient.inspectContainerCmd(container.id).exec()
                     if (inspect.state.running == false || timeout-- <= 0) {
-                        dockerClient.removeContainerCmd(container.id).withForce(true).exec()
+                        try {
+                            dockerClient.removeContainerCmd(container.id).withForce(true).exec()
+                        } catch (e: Exception) {
+                            logger.error(e.message)
+                        }
                         continue@mainLoop
                     }
                     Thread.sleep(1000)
                 } catch (e: InterruptedException) {
-                    dockerClient.removeContainerCmd(container.id).withForce(true).exec()
+                    try {
+                        dockerClient.removeContainerCmd(container.id).withForce(true).exec()
+                    } catch (e: Exception) {
+                        logger.error(e.message)
+                    }
                     break@mainLoop
                 }
             }
@@ -114,7 +122,11 @@ object JudgeWorker {
                 context.getRecordModel().update(newRecord)
             } finally {
                 logger.info("$recordId - removing container")
-                dockerClient.removeContainerCmd(container.id).withForce(true).exec()
+                try {
+                    dockerClient.removeContainerCmd(container.id).withForce(true).exec()
+                } catch (e: Exception) {
+                    logger.error(e.message)
+                }
                 logger.info("$recordId - deleting files")
                 try {
                     FileUtils.deleteDirectory(File(recordPackPath))
