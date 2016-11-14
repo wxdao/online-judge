@@ -22,12 +22,8 @@ object JudgeWorker {
     val loop = Runnable {
         mainLoop@ while (!Thread.currentThread().isInterrupted && !stopFlag) {
             val context = Application.context!!
-            val recordId = context.getJudgeQueueModel().remove()
+            val recordId = context.getJudgeQueueModel().blockingRemove()
             if (recordId == null) {
-                try {
-                    Thread.sleep(5000)
-                } catch (e: InterruptedException) {
-                }
                 continue
             }
             logger.info("judging $recordId")

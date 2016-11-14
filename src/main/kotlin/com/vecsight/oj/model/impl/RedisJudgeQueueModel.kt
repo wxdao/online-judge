@@ -30,6 +30,19 @@ class RedisJudgeQueueModel : JudgeQueueModel {
         }
     }
 
+    override fun blockingRemove(): String? {
+        try {
+            redisPool.resource.use { redis ->
+                val id = redis.blpop(1000, key) ?: return null
+                redis.setex(key + "-JUDGING:" + id[1], 30, "judging")
+                return id[1]
+            }
+        } catch (e: Exception) {
+            logger.error(e.message)
+            return null
+        }
+    }
+
     override fun indexOf(recordId: String): Int {
         redisPool.resource.use { redis ->
             val v = redis.lrange(key, 0, -1)
